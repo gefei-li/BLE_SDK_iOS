@@ -14,6 +14,7 @@ FOUNDATION_EXPORT NSString * const JumaBluetoothSDKVersionString;
 #import <JumaBluetoothSDK/JumaManager.h>
 #import <JumaBluetoothSDK/JumaManagerConstant.h>
 #import <JumaBluetoothSDK/JumaDevice.h>
+#import <JumaBluetoothSDK/JumaNullability.h>
 
 
 

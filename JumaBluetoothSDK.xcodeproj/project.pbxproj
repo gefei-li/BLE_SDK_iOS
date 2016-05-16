@@ -48,6 +48,7 @@
 		D40BDB161C11916B004C575B /* JumaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D40BDB0E1C11916B004C575B /* JumaManager.m */; };
 		D40BDB171C11916B004C575B /* JumaManagerConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = D40BDB0F1C11916B004C575B /* JumaManagerConstant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40BDB181C11916B004C575B /* JumaManagerConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = D40BDB101C11916B004C575B /* JumaManagerConstant.m */; };
+		D45632CB1CE9A03800221F9D /* JumaNullability.h in Headers */ = {isa = PBXBuildFile; fileRef = D45632CA1CE99EBE00221F9D /* JumaNullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,6 +202,7 @@
 				D40BDB151C11916B004C575B /* JumaManager.h in Headers */,
 				D40BDB171C11916B004C575B /* JumaManagerConstant.h in Headers */,
 				D40BDB111C11916B004C575B /* JumaDevice.h in Headers */,
+				D45632CB1CE9A03800221F9D /* JumaNullability.h in Headers */,
 				D40BDB051C119158004C575B /* NSError+Juma.h in Headers */,
 				D40BDAF71C119158004C575B /* JumaDataHelper.h in Headers */,
 				D40BDAFD1C119158004C575B /* JumaManager+Internal.h in Headers */,
