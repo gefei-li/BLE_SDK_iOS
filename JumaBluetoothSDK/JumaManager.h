@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @constant JumaManagerStateUnknown       State unknown, update imminent.
  *  @constant JumaManagerStateResetting     The connection with the system service was momentarily lost, update imminent.
- *  @constant JumaManagerStateUnsupported   The platform doesn't support the Bluetooth Low Energy Central/Client role.
- *  @constant JumaManagerStateUnauthorized  The application is not authorized to use the Bluetooth Low Energy Central/Client role.
+ *  @constant JumaManagerStateUnsupported   The platform doesn't support the Bluetooth Low Energy.
+ *  @constant JumaManagerStateUnauthorized  The application is not authorized to use the Bluetooth Low Energy.
  *  @constant JumaManagerStatePoweredOff    Bluetooth is currently powered off.
  *  @constant JumaManagerStatePoweredOn     Bluetooth is currently powered on and available to use.
  *
@@ -61,7 +61,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
 /*!
  *  @property isScanning
  *
- *  @discussion Indicate wether the manager is scanning.
+ *  @discussion Whether or not the manager is currently scanning.
  *
  */
 @property (readonly) BOOL isScanning;
@@ -79,18 +79,20 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *	@seealso		JumaManagerOptionIdentifierKey
  *
  */
-- (instancetype)initWithDelegate:(nullable id<JumaManagerDelegate>)delegate queue:(nullable dispatch_queue_t)queue options:(nullable NSDictionary *)options  NS_AVAILABLE(NA, 7_0);
+- (instancetype)initWithDelegate:(nullable id<JumaManagerDelegate>)delegate
+                           queue:(nullable dispatch_queue_t)queue
+                         options:(nullable NSDictionary *)options  NS_AVAILABLE(NA, 7_0);
 
 
 
 /*!
- *  @method retrievePeripheralsWithIdentifiers:
+ *  @method retrieveDeviceWithUUID:
  *
  *  @param UUID	  The UUID string of an device provided by the delegate method { manager:didDiscoverDevice:RSSI: }.
  *
  *  @discussion	  Attempts to retrieve the JumaDevice with the corresponding UUID.
  *
- *	@return		  A JumaDevice objects.
+ *	@return		  A JumaDevice object.
  *
  */
 - (nullable JumaDevice *)retrieveDeviceWithUUID:(NSString *)UUID NS_AVAILABLE(NA, 7_0);
@@ -102,8 +104,8 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *  @param options  An optional dictionary specifying options for the scan.
  *
  *  @discussion     Starts scanning for devices that are advertising.
- *                  Applications that have specified the 'Uses Bluetooth LE Accessories' background mode are allowed to scan while backgrounded, with one
- *                  caveat:  the JumaManagerScanOptionAllowDuplicatesKey scan option will be ignored.
+ *                  Applications that have specified the 'Uses Bluetooth LE Accessories' background mode are allowed to scan while backgrounded, 
+ *                  with one caveat: the JumaManagerScanOptionAllowDuplicatesKey scan option will be ignored.
  *
  *  @see            manager:didDiscoverDevice:RSSI:
  *  @see            JumaManagerScanOptionAllowDuplicatesKey
@@ -135,6 +137,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *  @see            manager:didFailToConnectDevice:error:
  */
 - (void)connectDevice:(JumaDevice *)device;
+
 /*!
  *  @method disconnectDevice:
  *
@@ -159,7 +162,6 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *  @method managerDidUpdateState:
  *
  *  @param manager  The manager whose state has changed.
- *  @param state    The current state of the manager.
  *
  *  @discussion     Invoked whenever the manager's state has been updated. Commands should only be issued when the state is
  *                  JumaManagerStatePoweredOn. A state below <i>JumaManagerStatePoweredOn</i> implies that scanning has stopped
