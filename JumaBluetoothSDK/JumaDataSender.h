@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JumaBluetoothSDK/JumaNullability.h>
 #import "JumaDataHelper.h"
 
 NS_ASSUME_NONNULL_BEGIN

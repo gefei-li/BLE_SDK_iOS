@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JumaBluetoothSDK/JumaNullability.h>
 
 #ifndef JumaBluetoothSDK_JumaManagerConstant_h
 #define JumaBluetoothSDK_JumaManagerConstant_h
