@@ -114,7 +114,6 @@
 }
 
 - (void)stopScan {
-    
     [_centralManager stopScan];
     
     if ([self.delegate respondsToSelector:@selector(managerDidStopScan:)]) {
@@ -123,9 +122,7 @@
 }
 
 - (void)connectDevice:(JumaDevice *)device {
-    
     NSParameterAssert(device != nil);
-    
     NSAssert([device isKindOfClass:[JumaInternalDevice class]], @"Invalid device: %@", device);
     
     JumaInternalDevice *temp = (JumaInternalDevice *)device;
@@ -136,9 +133,7 @@
 }
 
 - (void)disconnectDevice:(JumaDevice *)device {
-    
     NSParameterAssert(device != nil);
-    
     NSAssert([device isKindOfClass:[JumaInternalDevice class]], @"Invalid device: %@", device);
     
     JumaInternalDevice *temp = (JumaInternalDevice *)device;
@@ -154,6 +149,7 @@
             }
         }
     }
+    
     [_centralManager cancelPeripheralConnection:p];
     [temp disconnectedByManager];
 }
@@ -165,16 +161,19 @@
             return device;
         }
     }
+    
     return nil;
 }
 
 - (void)sendDelegateFailToConnect:(JumaDevice *)device error:(NSError *)error {
+    
     if ([self.delegate respondsToSelector:@selector(manager:didFailToConnectDevice:error:)]) {
         [self.delegate manager:self didFailToConnectDevice:device error:error];
     }
 }
 
 - (void)sendDelegateDisconnect:(JumaDevice *)device error:(NSError *)error {
+    
     if ([self.delegate respondsToSelector:@selector(manager:didDisconnectDevice:error:)]) {
         [self.delegate manager:self didDisconnectDevice:device error:error];
     }
@@ -183,14 +182,13 @@
 #pragma mark - CBCentralManagerDelegate
 
 - (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary *)dict {
-    
     NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
     
     peripherals = [peripherals juma_map:^JumaDevice *(CBPeripheral *object) {
         return [JumaInternalDevice deviceWithPeripheral:object manager:self];
     }];
     
-    self.devices = peripherals.mutableCopy;
+    self.devices = [peripherals mutableCopy];
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
@@ -210,18 +208,18 @@
     JumaInternalDevice *device = [self deviceInArrayWithPeripheral:peripheral];
     
     if (!device) {
-        
         device = [JumaInternalDevice deviceWithPeripheral:peripheral manager:self];
+        
         if (device) {
             [_devices addObject:device];
-        }
-        else {
+        } else {
             JMLog(@"初始化 JumaInternalDevice 对象失败");
         }
     }
     
     if (device.peripheral) {
         device.advertisementData = advertisementData;
+        
         if ([self.delegate respondsToSelector:@selector(manager:didDiscoverDevice:RSSI:)]) {
             [self.delegate manager:self didDiscoverDevice:device RSSI:RSSI];
         }
@@ -233,14 +231,12 @@
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     //JMLog(@"%s, %@, %@", __func__, peripheral, error);
-    
     JumaInternalDevice *device = [self deviceInArrayWithPeripheral:peripheral];
     [self sendDelegateFailToConnect:device error:error];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     //JMLog(@"%s, %@, %@", __func__, peripheral, error);
-    
     JumaInternalDevice *device = [self deviceInArrayWithPeripheral:peripheral];
     [device didDisconnectedByManager];
     
@@ -250,13 +246,11 @@
     
     
     // 可以连接这个 device, 通知 delegate 连接断开
-    if (device.canEstablishConnection)
-    {
+    if (device.canEstablishConnection) {
         [self sendDelegateDisconnect:device error:error];
     }
     // 不可以连接这个 device, 通知 delegate 连接失败
-    else
-    {
+    else {
         error = device.canNotEstablishConnectionError ?: error;
         [self sendDelegateFailToConnect:device error:error];
     }
@@ -264,7 +258,6 @@
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     //JMLog(@"%s, %@", __func__, peripheral);
-    
     JumaInternalDevice *device = [self deviceInArrayWithPeripheral:peripheral];
     [device didConnectedByManager];
 }
