@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <JumaBluetoothSDK/JumaManagerConstant.h>
-@class JumaDevice;
 
 /*!
  *  @enum JumaManagerState
@@ -33,6 +32,7 @@ typedef NS_ENUM(NSInteger, JumaManagerState) {
 };
 
 
+@class JumaDevice;
 @protocol JumaManagerDelegate;
 
 
