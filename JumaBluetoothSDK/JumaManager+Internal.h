@@ -20,4 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface JumaManager (ScannedAdvertisingServices)
+
++ (NSArray *)scannedAdvertisingServices;
+
+@end
+
 NS_ASSUME_NONNULL_END

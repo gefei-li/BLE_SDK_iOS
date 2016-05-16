@@ -49,3 +49,17 @@
 }
 
 @end
+
+@implementation JumaManager (ScannedAdvertisingServices)
+
++ (NSArray *)scannedAdvertisingServices {
+    static NSArray *services = nil;
+    
+    if (!services) {
+        services = @[ [CBUUID UUIDWithString:@"FE90"] ];
+    }
+    
+    return services;
+}
+
+@end

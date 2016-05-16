@@ -106,7 +106,8 @@
     
     if (_centralManager.state != CBCentralManagerStatePoweredOn) { return; }
     
-    [_centralManager scanForPeripheralsWithServices:@[ [CBUUID UUIDWithString:@"FE90"] ] options:options];
+    NSArray *services = [JumaManager scannedAdvertisingServices];
+    [_centralManager scanForPeripheralsWithServices:services options:options];
     
     // 绝对不能删除, 需要保持同一个 UUID 的 JumaDevice 的地址不变
     //[self.devices removeAllObjects];
