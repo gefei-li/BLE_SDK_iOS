@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <JumaBluetoothSDK/JumaManagerConstant.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  *  @enum JumaManagerState
  *
@@ -44,7 +46,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *  @discussion The delegate object that will manager events.
  *
  */
-@property (nonatomic, weak) id<JumaManagerDelegate> delegate;
+@property (nonatomic, weak, nullable) id<JumaManagerDelegate> delegate;
 
 /*!
  *  @property state
@@ -76,7 +78,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *	@seealso		JumaManagerOptionIdentifierKey
  *
  */
-- (instancetype)initWithDelegate:(id<JumaManagerDelegate>)delegate queue:(dispatch_queue_t)queue options:(NSDictionary *)options  NS_AVAILABLE(NA, 7_0);
+- (instancetype)initWithDelegate:(nullable id<JumaManagerDelegate>)delegate queue:(nullable dispatch_queue_t)queue options:(nullable NSDictionary *)options  NS_AVAILABLE(NA, 7_0);
 
 
 
@@ -90,7 +92,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *	@return		  A JumaDevice objects.
  *
  */
-- (JumaDevice *)retrieveDeviceWithUUID:(NSString *)UUID NS_AVAILABLE(NA, 7_0);
+- (nullable JumaDevice *)retrieveDeviceWithUUID:(NSString *)UUID NS_AVAILABLE(NA, 7_0);
 
 
 /*!
@@ -105,7 +107,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *  @see            manager:didDiscoverDevice:RSSI:
  *  @see            JumaManagerScanOptionAllowDuplicatesKey
  */
-- (void)scanForDeviceWithOptions:(NSDictionary *)options;
+- (void)scanForDeviceWithOptions:(nullable NSDictionary *)options;
 
 /*!
  *  @method stopScan
@@ -212,7 +214,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *                     As connection attempts do not timeout, the failure of a connection is atypical and usually indicative of a transient issue.
  *
  */
-- (void)manager:(JumaManager *)manager didFailToConnectDevice:(JumaDevice *)device error:(NSError *)error;
+- (void)manager:(JumaManager *)manager didFailToConnectDevice:(JumaDevice *)device error:(nullable NSError *)error;
 /*!
  *  @method manager:didDisconnectDevice:error:
  *
@@ -225,6 +227,8 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaManager : NSObject
  *                     called, no more methods will be invoked on device's JumaDeviceDelegate.
  *
  */
-- (void)manager:(JumaManager *)manager didDisconnectDevice:(JumaDevice *)device error:(NSError *)error;
+- (void)manager:(JumaManager *)manager didDisconnectDevice:(JumaDevice *)device error:(nullable NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
