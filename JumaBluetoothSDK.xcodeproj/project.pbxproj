@@ -91,6 +91,7 @@
 		D40BDB0E1C11916B004C575B /* JumaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumaManager.m; sourceTree = "<group>"; };
 		D40BDB0F1C11916B004C575B /* JumaManagerConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumaManagerConstant.h; sourceTree = "<group>"; };
 		D40BDB101C11916B004C575B /* JumaManagerConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumaManagerConstant.m; sourceTree = "<group>"; };
+		D45632CA1CE99EBE00221F9D /* JumaNullability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JumaNullability.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +162,7 @@
 		D40BDAE41C119136004C575B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D45632CA1CE99EBE00221F9D /* JumaNullability.h */,
 				D40BDAE51C119158004C575B /* JumaConfig.h */,
 				D40BDAE61C119158004C575B /* JumaDataHelper.h */,
 				D40BDAE71C119158004C575B /* JumaDataHelper.m */,
