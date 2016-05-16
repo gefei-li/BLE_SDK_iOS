@@ -18,16 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)validInitOptionsFromDict:(nullable NSDictionary *)dict;
 + (NSDictionary *)validScanOptionsFromDict:(nullable NSDictionary *)dict;
 
-+ (BOOL)isValidUUIDArray:(NSArray *)UUIDs;
-
-+ (BOOL)setUUIDString:(NSString *)UUID forKey:(NSString *)key;
-+ (BOOL)setNSUUID:(NSUUID *)UUID forKey:(NSString *)key;
-+ (BOOL)setCBUUID:(CBUUID *)UUID forKey:(NSString *)key;
-
-+ (NSString *)UUIDStringForKey:(NSString *)key;
-+ (NSUUID *)NSUUIDForKey:(NSString *)key;
-+ (CBUUID *)CBUUIDForKey:(NSString *)key;
-
 @end
 
 NS_ASSUME_NONNULL_END

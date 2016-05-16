@@ -30,6 +30,7 @@
         NSAssert([value isKindOfClass:[NSString class]], @"the value for key 'JumaManagerOptionRestoreIdentifierKey' must be a string");
         options[CBCentralManagerOptionRestoreIdentifierKey] = value;
     }
+    
     return options.copy;
 }
 
@@ -44,57 +45,7 @@
         options[CBCentralManagerScanOptionAllowDuplicatesKey] = value;
     }
     
-//    value = dict[JumaManagerScanOptionTimeoutKey];
-//    
-//    if (value) {
-//        BOOL isPositive = [value isKindOfClass:[NSNumber class]] && [value doubleValue] > 0;
-//        NSAssert(isPositive, @"the value for key 'JumaManagerScanOptionTimeoutKey' must be a positive number");
-//        options[JumaManagerScanOptionTimeoutKey] = value;
-//    }
     return options.copy;
-}
-
-+ (BOOL)isValidUUIDArray:(NSArray *)UUIDs {
-    
-    for (id object in UUIDs) {
-        if (![object isKindOfClass:[NSString class]]) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
-#pragma mark -
-
-+ (BOOL)setUUIDString:(NSString *)UUID forKey:(NSString *)key {
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if (UUID) {
-        [defaults setObject:UUID forKey:key];
-    }
-    else {
-        [defaults removeObjectForKey:key];
-    }
-    
-    return [defaults synchronize] || [defaults synchronize];
-}
-+ (BOOL)setNSUUID:(NSUUID *)UUID forKey:(NSString *)key {
-    return [self setUUIDString:UUID.UUIDString forKey:key];
-}
-+ (BOOL)setCBUUID:(CBUUID *)UUID forKey:(NSString *)key {
-    return [self setUUIDString:UUID.UUIDString forKey:key];
-}
-
-
-+ (NSString *)UUIDStringForKey:(NSString *)key {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:key];
-}
-+ (NSUUID *)NSUUIDForKey:(NSString *)key {
-    return [[NSUUID alloc] initWithUUIDString:[self UUIDStringForKey:key]];
-}
-+ (CBUUID *)CBUUIDForKey:(NSString *)key {
-    return [CBUUID UUIDWithString:[self UUIDStringForKey:key]];
 }
 
 @end

@@ -8,8 +8,6 @@
 
 #import "JumaDevice.h"
 
-//typedef void (^JumaWriteDataBlock)(NSData *receivedData, const SInt8 typeCode, NSError *error);
-
 @interface JumaDevice ()
 
 @end
@@ -52,14 +50,13 @@
 
 - (NSString *)description {
     NSString *stateDesc = nil;
+    
     switch (self.state) {
         case JumaDeviceStateConnected: stateDesc = @"connected"; break;
         case JumaDeviceStateConnecting: stateDesc = @"connecting"; break;
         case JumaDeviceStateDisconnected: stateDesc = @"disconnected"; break;
-#if DEBUG
-        default: NSAssert(NO, @"JumaDeviceState 中有未处理的枚举值"); break;
-#endif
     }
+    
     return [NSString stringWithFormat:@"<JumaDevice: %p, UUID = %@, name = %@, state = %@>", self, self.UUID, self.name, stateDesc];
 }
 

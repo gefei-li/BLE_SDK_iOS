@@ -18,14 +18,10 @@
 
 #import "NSArray+Block.h"
 #import "NSError+Juma.h"
-//#import "NSTimer+Category.h"
 
 @interface JumaManager () <CBCentralManagerDelegate>
 
 @property (nonatomic, strong) CBCentralManager *centralManager;
-
-//@property (nonatomic, strong) NSTimer *timer;
-
 
 /** @[ JumaInternalDevice ] */
 @property (nonatomic, strong) NSMutableArray *devices;
@@ -33,28 +29,6 @@
 @end
 
 @implementation JumaManager
-
-/*!
- *  @method initWithDelegate:queue:
- *
- *  @param delegate The delegate that will receive central role events.
- *  @param queue    The dispatch queue on which the events will be dispatched.
- *
- *  @discussion     If delegate is <i>nil</i>, this method will return <i>nil</i>.
- *                  The events of the central role will be dispatched on the provided queue. If <i>nil</i>, the main queue will be used.
- *
- */
-/*
-- (instancetype)initWithDelegate:(id<JumaManagerDelegate>)delegate queue:(dispatch_queue_t)queue {
-    
-    if (!delegate) return nil;
-    if (self = [super init]) {
-        _delegate = delegate;
-        _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue];
-    }
-    return self;
-}*/
-
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 - (instancetype)initWithDelegate:(id<JumaManagerDelegate>)delegate queue:(dispatch_queue_t)queue options:(NSDictionary *)options {
@@ -68,12 +42,7 @@
     }
     return self;
 }
-//#else
 #endif
-
-//- (void)dealloc {
-//    self.timer = nil;
-//}
 
 #pragma mark - setter and getter
 
@@ -86,9 +55,6 @@
         case CBCentralManagerStateUnsupported:  return JumaManagerStateUnsupported;
         case CBCentralManagerStateResetting:    return JumaManagerStateResetting;
         case CBCentralManagerStateUnknown:      return JumaManagerStateUnknown;
-#if DEBUG
-        default: NSAssert(NO, @"CBCentralManagerState 中有未处理的枚举值"); return 0;
-#endif
     }
 }
 
@@ -99,13 +65,6 @@
     return [[_centralManager valueForKey:@"isScanning"] boolValue];
 #endif
 }
-
-//- (void)setTimer:(NSTimer *)timer {
-//    if ([_timer isValid]  && (timer != _timer)) {
-//        [_timer invalidate];
-//    }
-//    _timer = timer;
-//}
 
 #pragma mark - public method
 - (JumaDevice *)retrieveDeviceWithUUID:(NSString *)UUID {
@@ -148,32 +107,17 @@
     
     if (_centralManager.state == CBCentralManagerStatePoweredOn) {
         
-        // 必须废除之前定义的 timer
-//        self.timer = nil;
-        
         // 开启扫描
         NSDictionary *scanOptions = [JumaManager validScanOptionsFromDict:options];
         [_centralManager scanForPeripheralsWithServices:@[ [CBUUID UUIDWithString:@"FE90"] ] options:scanOptions];
         
         // 绝对不能删除, 需要保持同一个 UUID 的 JumaDevice 的地址不变
 //        [self.devices removeAllObjects];
-        
-        // 设置扫描超时
-//        NSNumber *timeout = [options objectForKey:JumaManagerScanOptionTimeoutKey];
-//        if (timeout) {
-//            __weak typeof(self) weakSelf = self;
-//            self.timer = [NSTimer scheduledTimerWithTimeInterval:timeout.doubleValue repeats:NO block:^{
-//                typeof(weakSelf) strongSelf = weakSelf;
-//                
-//                [strongSelf stopScan];
-//            }];
-//        }
     }
 }
 
 - (void)stopScan {
     
-//    self.timer = nil;
     [_centralManager stopScan];
     
     if ([self.delegate respondsToSelector:@selector(managerDidStopScan:)]) {
@@ -270,14 +214,6 @@
     
     if (!device) {
         
-        // 外部调用扫描方法时, 没有指定设备的名称
-//        BOOL noName   = ( !self.peripheralName );
-//        
-//        // 外部调用扫描方法时, 指定了设备的名称
-//        BOOL sameName = ( [self.peripheralName isEqualToString:peripheral.name] );
-//        
-//        if ( noName || sameName ) {
-        
         device = [JumaInternalDevice deviceWithPeripheral:peripheral manager:self];
         if (device) {
             [_devices addObject:device];
@@ -285,8 +221,6 @@
         else {
             JMLog(@"初始化 JumaInternalDevice 对象失败");
         }
-        
-//        }
     }
     
     if (device.peripheral) {
@@ -336,10 +270,6 @@
     
     JumaInternalDevice *device = [self deviceInArrayWithPeripheral:peripheral];
     [device didConnectedByManager];
-}
-
-- (void)dealloc {
-    JMLog(@"%s", __func__);
 }
 
 @end

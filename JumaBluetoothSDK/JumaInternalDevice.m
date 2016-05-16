@@ -143,11 +143,6 @@
     }];
 }
 
-//- (void)writeData:(NSData *)data type:(UInt8)typeCode completionHandler:(JumaWriteDataBlock)handler {
-//    self.writeDataHandler = handler;
-//    [self writeData:data type:typeCode];
-//}
-
 - (void)setOtaMode {
     char bytes[] = { 'O', 'T', 'A', '_', 'M', 'O', 'D', 'E', 0 };
     NSData *data = [NSData dataWithBytes:bytes length:sizeof(bytes)]; // <4f54415f 4d4f4445 00>
@@ -251,12 +246,6 @@
 }
 
 - (void)sendDelegateUpdateData:(NSData *)data type:(char)typeCode error:(NSError *)error {
-
-//    if (_writeDataHandler) {
-//        _writeDataHandler(data, typeCode, error);
-//        self.writeDataHandler = nil;
-//        return;
-//    }
     
     if ([self.delegate respondsToSelector:@selector(device:didUpdateData:type:error:)]) {
         [self.delegate device:self didUpdateData:data type:typeCode error:error];
