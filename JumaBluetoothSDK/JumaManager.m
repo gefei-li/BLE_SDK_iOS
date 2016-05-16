@@ -32,14 +32,14 @@
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 - (instancetype)initWithDelegate:(id<JumaManagerDelegate>)delegate queue:(dispatch_queue_t)queue options:(NSDictionary *)options {
+    self = [super init];
+    if (!self) { return nil; }
     
-    if (self = [super init]) {
-        _devices = [NSMutableArray array];
-        _delegate = delegate;
-        _centralManager = [[CBCentralManager alloc] initWithDelegate:self
-                                                               queue:queue
-                                                             options:[JumaManager validInitOptionsFromDict:options]];
-    }
+    options = [JumaManager validInitOptionsFromDict:options];
+    
+    _devices = [NSMutableArray array];
+    _delegate = delegate;
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue options:options];
     return self;
 }
 #endif
