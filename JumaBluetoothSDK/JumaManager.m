@@ -102,18 +102,14 @@
 
 
 - (void)scanForDeviceWithOptions:(NSDictionary *)options {
-    
     options = [JumaManager validScanOptionsFromDict:options];
     
-    if (_centralManager.state == CBCentralManagerStatePoweredOn) {
-        
-        // 开启扫描
-        NSDictionary *scanOptions = [JumaManager validScanOptionsFromDict:options];
-        [_centralManager scanForPeripheralsWithServices:@[ [CBUUID UUIDWithString:@"FE90"] ] options:scanOptions];
-        
-        // 绝对不能删除, 需要保持同一个 UUID 的 JumaDevice 的地址不变
-//        [self.devices removeAllObjects];
-    }
+    if (_centralManager.state != CBCentralManagerStatePoweredOn) { return; }
+    
+    [_centralManager scanForPeripheralsWithServices:@[ [CBUUID UUIDWithString:@"FE90"] ] options:options];
+    
+    // 绝对不能删除, 需要保持同一个 UUID 的 JumaDevice 的地址不变
+    //[self.devices removeAllObjects];
 }
 
 - (void)stopScan {
