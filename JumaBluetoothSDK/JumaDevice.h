@@ -40,28 +40,28 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *
  *  @discussion The delegate object that will receive device events.
  */
-@property(weak, nonatomic, nullable) id<JumaDeviceDelegate> delegate;
+@property (nonatomic, weak, nullable) id<JumaDeviceDelegate> delegate;
 
 /*!
  *  @property UUID
  *
  *  @discussion The unique, persistent identifier associated with the device.
  */
-@property(copy, nonatomic, readonly) NSString *UUID NS_AVAILABLE(NA, 7_0);
+@property (nonatomic, copy, readonly) NSString *UUID NS_AVAILABLE(NA, 7_0);
 
 /*!
  *  @property name
  *
  *  @discussion The name of the device.
  */
-@property(retain, readonly, nullable) NSString *name;
+@property (readonly, retain, nullable) NSString *name;
 
 /*!
  *  @property state
  *
  *  @discussion The current connection state of the device
  */
-@property(readonly) JumaDeviceState state;
+@property (readonly) JumaDeviceState state;
 
 
 
