@@ -10,11 +10,11 @@
 
 @implementation NSError (Juma)
 
-+ (NSError *)jumaSDK_errorWithDescription:(NSString *)desc {
-    return [self jumaSDK_errorWithCode:0 description:desc];
++ (NSError *)juma_errorWithDescription:(NSString *)desc {
+    return [self juma_errorWithCode:0 description:desc];
 }
 
-+ (NSError *)jumaSDK_errorWithCode:(NSInteger)code description:(NSString *)desc {
++ (NSError *)juma_errorWithCode:(NSInteger)code description:(NSString *)desc {
     NSDictionary *info = @{ NSLocalizedDescriptionKey : desc };
     NSError *error = [NSError errorWithDomain:@"io.juma.www" code:code userInfo:info];
     return error;

@@ -10,10 +10,10 @@
 
 @interface NSArray (Block)
 
-- (NSArray *)jumaSDK_map:(id (^)(id object))block;
-- (NSArray *)jumaSDK_filter:(BOOL (^)(id object))block;
-//- (NSArray *)jumaSDK_reject:(BOOL (^)(id object))block;
-- (id)jumaSDK_detect:(BOOL (^)(id object))block;
-//- (id)jumaSDK_reduce:(id (^)(id accumulator, id object))block;
-//- (id)jumaSDK_reduce:(id)initial withBlock:(id (^)(id accumulator, id object))block;
+- (NSArray *)juma_map:(id (^)(id object))block;
+- (NSArray *)juma_filter:(BOOL (^)(id object))block;
+//- (NSArray *)juma_reject:(BOOL (^)(id object))block;
+- (id)juma_detect:(BOOL (^)(id object))block;
+//- (id)juma_reduce:(id (^)(id accumulator, id object))block;
+//- (id)juma_reduce:(id)initial withBlock:(id (^)(id accumulator, id object))block;
 @end

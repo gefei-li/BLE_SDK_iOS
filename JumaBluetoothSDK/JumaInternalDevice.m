@@ -189,13 +189,13 @@
             }
             else
             {
-                NSError *error = [NSError jumaSDK_errorWithDescription:@"The last data transfer is not completed."];
+                NSError *error = [NSError juma_errorWithDescription:@"The last data transfer is not completed."];
                 [self outputError:error dataType:type];
             }
         }
         else
         {
-            NSError *error = [NSError jumaSDK_errorWithDescription:@"Unknow error"];
+            NSError *error = [NSError juma_errorWithDescription:@"Unknow error"];
             [self outputError:error dataType:type];
             
             // 断开连接
@@ -294,7 +294,7 @@
         }
         
         NSString *desc = [NSString stringWithFormat:@"The device named %@ is not supported by JUMA", peripheral.name];
-        self.canNotEstablishConnectionError = [NSError jumaSDK_errorWithDescription:desc];
+        self.canNotEstablishConnectionError = [NSError juma_errorWithDescription:desc];
         [_manager disconnectDevice:self];
     }
     else
@@ -333,7 +333,7 @@
         else
         {
             NSString *desc = [NSString stringWithFormat:@"The device named %@ is not supported by JUMA", peripheral.name];
-            self.canNotEstablishConnectionError = [NSError jumaSDK_errorWithDescription:desc];
+            self.canNotEstablishConnectionError = [NSError juma_errorWithDescription:desc];
             [_manager disconnectDevice:self];
         }
     }
@@ -359,7 +359,7 @@
             else
             {
                 NSString *desc = [NSString stringWithFormat:@"The device named %@ can not notify temporarily", peripheral.name];
-                self.canNotEstablishConnectionError = [NSError jumaSDK_errorWithDescription:desc];
+                self.canNotEstablishConnectionError = [NSError juma_errorWithDescription:desc];
                 [_manager disconnectDevice:self];
             }
         }

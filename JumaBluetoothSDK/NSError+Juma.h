@@ -10,7 +10,7 @@
 
 @interface NSError (Juma)
 
-+ (NSError *)jumaSDK_errorWithDescription:(NSString *)desc;
-+ (NSError *)jumaSDK_errorWithCode:(NSInteger)code description:(NSString *)desc;
++ (NSError *)juma_errorWithDescription:(NSString *)desc;
++ (NSError *)juma_errorWithCode:(NSInteger)code description:(NSString *)desc;
 
 @end

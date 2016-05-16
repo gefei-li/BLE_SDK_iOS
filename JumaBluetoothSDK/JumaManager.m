@@ -72,7 +72,7 @@
     if (UUID) {
         
         // search array
-        JumaInternalDevice *device = [_devices jumaSDK_detect:^BOOL(JumaInternalDevice *object) {
+        JumaInternalDevice *device = [_devices juma_detect:^BOOL(JumaInternalDevice *object) {
             return [object.peripheral.identifier.UUIDString isEqualToString:UUID];
         }];
         
@@ -86,7 +86,7 @@
         // retrieve connected peripheral
         if (!device) {
             NSArray *peripherals = [_centralManager retrieveConnectedPeripheralsWithServices:[JumaDeviceConstant services]];
-            CBPeripheral *p = [peripherals jumaSDK_detect:^BOOL(CBPeripheral *object) {
+            CBPeripheral *p = [peripherals juma_detect:^BOOL(CBPeripheral *object) {
                 return [object.identifier.UUIDString isEqualToString:UUID];
             }];
             device = [JumaInternalDevice deviceWithPeripheral:p manager:self];
@@ -189,7 +189,7 @@
     
     NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
     
-    peripherals = [peripherals jumaSDK_map:^JumaDevice *(CBPeripheral *object) {
+    peripherals = [peripherals juma_map:^JumaDevice *(CBPeripheral *object) {
         return [JumaInternalDevice deviceWithPeripheral:object manager:self];
     }];
     
