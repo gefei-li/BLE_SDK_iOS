@@ -50,13 +50,15 @@
 @implementation JumaInternalDevice
 
 - (instancetype)initWithPeripheral:(CBPeripheral *)peripheral manager:(JumaManager *)manager {
+    NSParameterAssert(peripheral != nil);
+    NSParameterAssert(manager != nil);
     
-    if ( (!peripheral) || (!manager) ) return nil;
-    if (self = [super init]) {
-        _manager = manager;
-        _peripheral = peripheral;
-        _peripheral.delegate = self;
-    }
+    self = [super init];
+    if (!self) { return nil; }
+    
+    _manager = manager;
+    _peripheral = peripheral;
+    _peripheral.delegate = self;
     return self;
 }
 
