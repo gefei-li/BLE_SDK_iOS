@@ -7,6 +7,9 @@
 //
 
 #import "JumaDevice.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @class JumaManager;
 @class CBPeripheral;
 
@@ -18,7 +21,7 @@
 /** 能否和这个设备建立连接 */
 @property (nonatomic, readonly) BOOL canEstablishConnection;
 /** 不能和这个设备建立连接的原因 */
-@property (nonatomic, strong, readonly) NSError *canNotEstablishConnectionError;
+@property (nonatomic, strong, readonly, nullable) NSError *canNotEstablishConnectionError;
 
 @property (nonatomic, strong, readonly) CBPeripheral *peripheral;
 
@@ -39,3 +42,5 @@
 - (void)disconnectFromManager;
 
 @end
+
+NS_ASSUME_NONNULL_END

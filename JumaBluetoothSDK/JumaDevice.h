@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^JumaReadRssiBlock)(NSNumber *RSSI, NSError *error);
-typedef void (^JumaUpdateFirmwareBlock)(NSError *error);
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^JumaReadRssiBlock)(NSNumber * __nullable RSSI, NSError * __nullable error);
+typedef void (^JumaUpdateFirmwareBlock)(NSError *__nullable error);
 
 /*!
  *  @enum JumaDeviceState
@@ -37,7 +39,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *
  *  @discussion The delegate object that will receive device events.
  */
-@property(weak, nonatomic) id<JumaDeviceDelegate> delegate;
+@property(weak, nonatomic, nullable) id<JumaDeviceDelegate> delegate;
 
 /*!
  *  @property UUID
@@ -51,7 +53,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *
  *  @discussion The name of the device.
  */
-@property(retain, readonly) NSString *name;
+@property(retain, readonly, nullable) NSString *name;
 
 /*!
  *  @property state
@@ -149,7 +151,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *  @discussion       This method returns the result of a { readRSSI } call.
  *
  */
-- (void)device:(JumaDevice *)device didReadRSSI:(NSNumber *)RSSI error:(NSError *)error;
+- (void)device:(JumaDevice *)device didReadRSSI:(nullable NSNumber *)RSSI error:(nullable NSError *)error;
 
 /*!
  *  @method device:didWriteData:
@@ -159,7 +161,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *
  *  @discussion				This method returns the result of a { writeData:type: } or a { setOtaMode } call.
  */
-- (void)device:(JumaDevice *)device didWriteData:(NSError *)error;
+- (void)device:(JumaDevice *)device didWriteData:(nullable NSError *)error;
 
 /*!
  *  @method device:didUpdateData:error:
@@ -173,7 +175,7 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *                    If an error occurred, the <i>data</i> will be <i>nil</i>, the <i>typeCode</i> will be <i>-1</i>.
  *
  */
-- (void)device:(JumaDevice *)device didUpdateData:(NSData *)data type:(const char)typeCode error:(NSError *)error;
+- (void)device:(JumaDevice *)device didUpdateData:(nullable NSData *)data type:(const char)typeCode error:(nullable NSError *)error;
 
 /*!
  *  @method device:didUpdateFirmware:
@@ -184,6 +186,8 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *  @discussion       This method returns the the result of a { updateFirmware: } call.
  *
  */
-- (void)device:(JumaDevice *)device didUpdateFirmware:(NSError *)error;
+- (void)device:(JumaDevice *)device didUpdateFirmware:(nullable NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
