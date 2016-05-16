@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /* 数据类型是基于简单数字的, 为区分不同数据的不同目的的方式
    数据类型大体上分为两类: 1) 允许用户自定义的部分, 范围是 [0, 127]. 2) 内部使用和保留, 范围是 [128, 255];
    
@@ -72,3 +74,5 @@ typedef NS_ENUM(UInt8, JumaDataSubtype) {
 + (NSMutableArray *)dividedFirmwareDatasWithType:(JumaDataType)type subtype:(JumaDataSubtype)subtype data:(NSData *)data;
 
 @end
+
+NS_ASSUME_NONNULL_END

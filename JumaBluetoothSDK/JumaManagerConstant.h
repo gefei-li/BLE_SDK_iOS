@@ -11,6 +11,8 @@
 #ifndef JumaBluetoothSDK_JumaManagerConstant_h
 #define JumaBluetoothSDK_JumaManagerConstant_h
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  *  @const  JumaManagerOptionShowPowerAlertKey
  *
@@ -48,5 +50,6 @@ FOUNDATION_EXPORT NSString * const JumaManagerOptionRestoreIdentifierKey NS_AVAI
  */
 FOUNDATION_EXPORT NSString * const JumaManagerScanOptionAllowDuplicatesKey;
 
+NS_ASSUME_NONNULL_END
 
 #endif

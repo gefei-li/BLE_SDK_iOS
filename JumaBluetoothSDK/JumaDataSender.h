@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "JumaDataHelper.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @class CBPeripheral;
 @class CBCharacteristic;
 
@@ -33,3 +36,5 @@
 - (void)sendRemainingRowsToCharacteristic:(CBCharacteristic *)c peripheral:(CBPeripheral *)p;
 
 @end
+
+NS_ASSUME_NONNULL_END

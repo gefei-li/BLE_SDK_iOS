@@ -7,12 +7,15 @@
 //
 
 #import "JumaManager.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @class CBUUID;
 
 @interface JumaManager (Internal)
 
-+ (NSDictionary *)validInitOptionsFromDict:(NSDictionary *)dict;
-+ (NSDictionary *)validScanOptionsFromDict:(NSDictionary *)dict;
++ (NSDictionary *)validInitOptionsFromDict:(nullable NSDictionary *)dict;
++ (NSDictionary *)validScanOptionsFromDict:(nullable NSDictionary *)dict;
 
 + (BOOL)isValidUUIDArray:(NSArray *)UUIDs;
 
@@ -25,3 +28,5 @@
 + (CBUUID *)CBUUIDForKey:(NSString *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END
