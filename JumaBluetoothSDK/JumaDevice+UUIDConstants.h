@@ -1,19 +1,18 @@
 //
-//  JumaDeviceConstant.h
+//  JumaDevice+UUIDConstants.h
 //  JumaBluetoothSDK
 //
-//  Created by 汪安军 on 15/7/17.
-//  Copyright (c) 2015年 JUMA. All rights reserved.
+//  Created by 汪安军 on 16/5/17.
+//  Copyright © 2016年 JUMA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <JumaBluetoothSDK/JumaNullability.h>
+#import <JumaBluetoothSDK/JumaBluetoothSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class CBUUID;
 
-@interface JumaDeviceConstant : NSObject
+@interface JumaDevice (UUIDConstants)
 
 + (CBUUID *)serviceUUID;
 + (NSArray *)services;

@@ -7,9 +7,9 @@
 //
 
 #import "JumaInternalDevice.h"
+#import "JumaDevice+UUIDConstants.h"
 #import "JumaManager.h"
 #import "JumaConfig.h"
-#import "JumaDeviceConstant.h"
 #import "JumaDataSender.h"
 
 #import "NSData+Category.h"
@@ -97,7 +97,7 @@
 }
 
 - (void)didConnectedByManager {
-    [_peripheral discoverServices:[JumaDeviceConstant services]];
+    [_peripheral discoverServices:[JumaDevice services]];
 }
 
 - (void)disconnectedByManager {
@@ -314,9 +314,9 @@
     {
         for (CBService *service in peripheral.services) {
             
-            if ([service.UUID isEqual: [JumaDeviceConstant serviceUUID]]) {
+            if ([service.UUID isEqual: [JumaDevice serviceUUID]]) {
                 
-                [peripheral discoverCharacteristics:[JumaDeviceConstant characteristics] forService:service];
+                [peripheral discoverCharacteristics:[JumaDevice characteristics] forService:service];
                 return;
             }
         }
@@ -337,9 +337,9 @@
     
     if (!error)
     {
-        CBUUID *notifyUUID  = [JumaDeviceConstant notifyCharacteristicUUID];
-        CBUUID *commandUUID = [JumaDeviceConstant commandCharacteristicUUID];
-        CBUUID *bulkOutUUID = [JumaDeviceConstant bulkOutCharacteristicUUID];
+        CBUUID *notifyUUID  = [JumaDevice notifyCharacteristicUUID];
+        CBUUID *commandUUID = [JumaDevice commandCharacteristicUUID];
+        CBUUID *bulkOutUUID = [JumaDevice bulkOutCharacteristicUUID];
         
         self.commandCharacteristic = nil;
         self.notifyCharacteristic  = nil;
@@ -376,7 +376,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
 //    JMLog(@"%s, %@, %@, %@, %@", __func__, peripheral, characteristic, error, [NSThread currentThread]);
     
-    if ([characteristic.UUID isEqual: [JumaDeviceConstant notifyCharacteristicUUID]])
+    if ([characteristic.UUID isEqual: [JumaDevice notifyCharacteristicUUID]])
     {
         if (!error)
         {
@@ -402,7 +402,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     //    JMLog(@"%s, %@, %@, %@", __func__, peripheral, characteristic, error);
     
-    if ([characteristic.UUID isEqual: [JumaDeviceConstant commandCharacteristicUUID]])
+    if ([characteristic.UUID isEqual: [JumaDevice commandCharacteristicUUID]])
     {
         const JumaDataType dataType = _dataSender.dataType;
         
@@ -460,7 +460,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     //JMLog(@"%s, %@, %@, %@", __func__, peripheral, characteristic, error);
     
-    if ([characteristic.UUID isEqual: [JumaDeviceConstant notifyCharacteristicUUID]])
+    if ([characteristic.UUID isEqual: [JumaDevice notifyCharacteristicUUID]])
     {
         if (!error)
         {

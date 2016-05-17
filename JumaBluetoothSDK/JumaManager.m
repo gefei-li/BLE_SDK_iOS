@@ -11,7 +11,7 @@
 #import "JumaManager+Internal.h"
 
 #import "JumaInternalDevice.h"
-#import "JumaDeviceConstant.h"
+#import "JumaDevice+UUIDConstants.h"
 #import "JumaConfig.h"
 
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -85,7 +85,7 @@
         
         // retrieve connected peripheral
         if (!device) {
-            NSArray *peripherals = [_centralManager retrieveConnectedPeripheralsWithServices:[JumaDeviceConstant services]];
+            NSArray *peripherals = [_centralManager retrieveConnectedPeripheralsWithServices:[JumaDevice services]];
             CBPeripheral *p = [peripherals juma_detect:^BOOL(CBPeripheral *object) {
                 return [object.identifier.UUIDString isEqualToString:UUID];
             }];

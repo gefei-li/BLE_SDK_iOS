@@ -1,12 +1,12 @@
 //
-//  JumaDeviceConstant.m
+//  JumaDevice+UUIDConstants.m
 //  JumaBluetoothSDK
 //
-//  Created by 汪安军 on 15/7/17.
-//  Copyright (c) 2015年 JUMA. All rights reserved.
+//  Created by 汪安军 on 16/5/17.
+//  Copyright © 2016年 JUMA. All rights reserved.
 //
 
-#import "JumaDeviceConstant.h"
+#import "JumaDevice+UUIDConstants.h"
 #import <CoreBluetooth/CBUUID.h>
 
 static NSString *const UUID_Service                = @"00008000-60B2-21F8-BCE3-94EEA697F98C";
@@ -15,7 +15,7 @@ static NSString *const UUID_Characteristic_Notify  = @"00008002-60B2-21F8-BCE3-9
 static NSString *const UUID_Characteristic_BulkOut = @"00008003-60B2-21F8-BCE3-94EEA697F98C"; // write
 static NSString *const UUID_Characteristic_BulkIn  = @"00008004-60B2-21F8-BCE3-94EEA697F98C"; // notify
 
-@implementation JumaDeviceConstant
+@implementation JumaDevice (UUIDConstants)
 
 #pragma mark - service
 
