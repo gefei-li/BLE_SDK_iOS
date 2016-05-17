@@ -49,10 +49,16 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(UInt8, JumaDataType) {
     /** 用户可以自由选择的数据类型的最大值是 127 */
     JumaDataTypeUserMax = 127,
+    /** 用来读取蓝牙设备中的 Device_ID */
+    JumaDataTypeReadDeviceID = 0x80,
     /** 用来进行固件升级 */
     JumaDataType81 = 0x81,
     /** 用来让设备进入 OTA 模式 */
-    JumaDataType82 = 0x82
+    JumaDataType82 = 0x82,
+    /** 用来读取蓝牙设备中的 Vendor_ID 和 Product_ID */
+    JumaDataTypeReadVerdorIDAndProductID = 0x85,
+    /** 用来读取蓝牙设备的固件版本 */
+    JumaDataTypeReadFirmwareVersion = 0x86,
 };
 /** 接收数据出现异常/其他无法给出数据类型的情况 */
 extern const SInt8 JumaDataTypeError;
