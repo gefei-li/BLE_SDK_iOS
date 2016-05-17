@@ -33,6 +33,10 @@
 - (void)updateFirmware:(NSData *)firmwareData {}
 - (void)updateFirmware:(NSData *)firmwareData completionHandler:(JumaUpdateFirmwareBlock)handler {}
 
+- (void)readDeviceID {}
+- (void)readVerdorIDAndProductID {}
+- (void)readFirmwareVersion {}
+
 /*!
  *  @method writeData:type:completionHandler:
  *

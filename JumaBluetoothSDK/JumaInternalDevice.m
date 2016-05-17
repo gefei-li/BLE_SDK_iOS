@@ -176,6 +176,18 @@
     [self updateFirmware:firmwareData];
 }
 
+- (void)readDeviceID {
+    
+}
+
+- (void)readVerdorIDAndProductID {
+    
+}
+
+- (void)readFirmwareVersion {
+    
+}
+
 #pragma mark - private method
 
 - (void)sendOperationWithDataType:(JumaDataType)type implementation:(void (^)(void))handler {

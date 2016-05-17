@@ -134,6 +134,10 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  */
 - (void)updateFirmware:(NSData *)firmwareData completionHandler:(JumaUpdateFirmwareBlock)handler;
 
+- (void)readDeviceID;
+- (void)readVerdorIDAndProductID;
+- (void)readFirmwareVersion;
+
 @end
 
 #pragma mark - JumaDeviceDelegate
@@ -188,6 +192,10 @@ NS_CLASS_AVAILABLE(NA, 7_0) @interface JumaDevice : NSObject <NSCopying>
  *
  */
 - (void)device:(JumaDevice *)device didUpdateFirmware:(nullable NSError *)error;
+
+- (void)device:(JumaDevice *)device didReadDeviceID:(nullable NSString *)deviceID error:(nullable NSError *)error;
+- (void)device:(JumaDevice *)device didReadVerdorID:(nullable NSString *)verdorID productID:(nullable NSString *)productID error:(nullable NSError *)error;
+- (void)device:(JumaDevice *)device didReadFirmwareVersion:(nullable NSString *)firmwareVersion error:(nullable NSError *)error;
 
 @end
 
