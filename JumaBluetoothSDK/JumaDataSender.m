@@ -25,7 +25,7 @@
 
 @implementation JumaDataSender
 
-- (instancetype)initWithData:(NSData *)data type:(JumaDataType)type {
+- (instancetype)initWithData:(NSData *)data type:(const JumaDataType)type {
     
     if (self = [super init]) {
         
