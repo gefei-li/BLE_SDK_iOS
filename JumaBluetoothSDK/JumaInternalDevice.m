@@ -177,15 +177,30 @@
 }
 
 - (void)readDeviceID {
+    const JumaDataType type = JumaDataTypeReadDeviceID;
     
+    [self sendOperationWithDataType:type implementation:^{
+        self.dataSender = [[JumaDataSender alloc] initWithData:nil type:type];
+        [self.dataSender sendFirstDataToCharacteristic:self.commandCharacteristic peripheral:self.peripheral];
+    }];
 }
 
 - (void)readVerdorIDAndProductID {
+    const JumaDataType type = JumaDataTypeReadVerdorIDAndProductID;
     
+    [self sendOperationWithDataType:type implementation:^{
+        self.dataSender = [[JumaDataSender alloc] initWithData:nil type:type];
+        [self.dataSender sendFirstDataToCharacteristic:self.commandCharacteristic peripheral:self.peripheral];
+    }];
 }
 
 - (void)readFirmwareVersion {
+    const JumaDataType type = JumaDataTypeReadFirmwareVersion;
     
+    [self sendOperationWithDataType:type implementation:^{
+        self.dataSender = [[JumaDataSender alloc] initWithData:nil type:type];
+        [self.dataSender sendFirstDataToCharacteristic:self.commandCharacteristic peripheral:self.peripheral];
+    }];
 }
 
 #pragma mark - private method
@@ -224,13 +239,12 @@
     }
 }
 
-- (void)outputError:(NSError *)error dataType:(JumaDataType)type {
+- (void)outputError:(NSError *)error dataType:(const JumaDataType)type {
     
-    if (JumaDataTypeUserMax >= type || JumaDataType82 == type) {
-        [self sendDelegateResultOfWriting:error];
-    }
-    else if (JumaDataType81 == type) {
+    if (type == JumaDataType81) {
         [self sendDelegateResultOfUpdating:error];
+    } else {
+        [self sendDelegateResultOfWriting:error];
     }
 }
 
