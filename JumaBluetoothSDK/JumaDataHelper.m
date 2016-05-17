@@ -21,7 +21,7 @@ typedef UInt8 SectionIndex;
 @implementation JumaDataHelper
 
 + (NSMutableArray *)dividedDatasWithType:(JumaDataType)type data:(NSData *)data {
-    
+
     // 1 类型
     NSMutableData *header = [NSMutableData dataWithBytes:&type length:sizeof(type)];
     
@@ -29,8 +29,10 @@ typedef UInt8 SectionIndex;
     JumaDataLength len = (JumaDataLength)data.length;
     [header appendData:[NSData dataWithBytes:&len length:sizeof(len)]];
     
-    // 3 内容
-    [header appendData:data];
+    // 3 追加内容
+    if (data.length > 0) {
+        [header appendData:data];
+    }
     
     // 分割
     return [self divideData:header length:MaxPacketLength];

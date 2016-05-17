@@ -77,7 +77,7 @@ typedef NS_ENUM(UInt8, JumaDataSubtype) {
 
 @interface JumaDataHelper : NSObject
 
-+ (NSMutableArray *)dividedDatasWithType:(JumaDataType)type data:(NSData *)data;
++ (NSMutableArray *)dividedDatasWithType:(JumaDataType)type data:(nullable NSData *)data;
 + (NSMutableArray *)dividedFirmwareDatasWithType:(JumaDataType)type subtype:(JumaDataSubtype)subtype data:(NSData *)data;
 
 @end
