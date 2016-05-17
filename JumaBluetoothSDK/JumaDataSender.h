@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) JumaDataType dataType;
 @property (nonatomic, readonly) BOOL didWriteAllFirmwareData;
 
-- (instancetype)initWithData:(NSData *)data type:(JumaDataType)type;
+- (instancetype)initWithData:(nullable NSData *)data type:(JumaDataType)type;
 
 // 发送普通数据
 - (void)sendFirstDataToCharacteristic:(CBCharacteristic *)c peripheral:(CBPeripheral *)p;
