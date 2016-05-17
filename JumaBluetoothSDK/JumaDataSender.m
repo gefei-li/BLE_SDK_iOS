@@ -28,29 +28,22 @@
 - (instancetype)initWithData:(NSData *)data type:(const JumaDataType)type {
     
     if (self = [super init]) {
+        _dataType = type;
         
-        self.dataType = type;
-        
-        if (JumaDataTypeUserMax >= type || JumaDataType82 == type)
-        {
+        if (type == JumaDataType81) {
+            _firmwareDatas = [JumaDataHelper dividedFirmwareDatasWithType:JumaDataType81
+                                                                  subtype:JumaDataSubtypeData
+                                                                     data:data];
+            
+            _otaIdentifierBegin = [self otaIdentifierWithSubtype:JumaDataSubtypeBegin];
+            _otaIdentifierData  = [self otaIdentifierWithSubtype:JumaDataSubtypeData];
+            _otaIdentifierEnd   = [self otaIdentifierWithSubtype:JumaDataSubtypeEnd];
+            
+            [_firmwareDatas insertObject:_otaIdentifierBegin atIndex:0]; // OTA Begin
+            [_firmwareDatas insertObject:_otaIdentifierData  atIndex:1]; // OTA Data
+            [_firmwareDatas insertObject:_otaIdentifierEnd   atIndex:2]; // OTA End
+        } else {
             _datas = [JumaDataHelper dividedDatasWithType:type data:data];
-        }
-        else
-        {
-            if (JumaDataType81 == type)
-            {
-                _firmwareDatas = [JumaDataHelper dividedFirmwareDatasWithType:JumaDataType81
-                                                                          subtype:JumaDataSubtypeData
-                                                                             data:data];
-                
-                _otaIdentifierBegin = [self otaIdentifierWithSubtype:JumaDataSubtypeBegin];
-                _otaIdentifierData  = [self otaIdentifierWithSubtype:JumaDataSubtypeData];
-                _otaIdentifierEnd   = [self otaIdentifierWithSubtype:JumaDataSubtypeEnd];
-                
-                [_firmwareDatas insertObject:_otaIdentifierBegin atIndex:0]; // OTA Begin
-                [_firmwareDatas insertObject:_otaIdentifierData  atIndex:1]; // OTA Data
-                [_firmwareDatas insertObject:_otaIdentifierEnd   atIndex:2]; // OTA End
-            }
         }
     }
     return self;
