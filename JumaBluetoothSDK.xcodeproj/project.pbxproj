@@ -47,6 +47,8 @@
 		D40BDB171C11916B004C575B /* JumaManagerConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = D40BDB0F1C11916B004C575B /* JumaManagerConstant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40BDB181C11916B004C575B /* JumaManagerConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = D40BDB101C11916B004C575B /* JumaManagerConstant.m */; };
 		D45632CB1CE9A03800221F9D /* JumaNullability.h in Headers */ = {isa = PBXBuildFile; fileRef = D45632CA1CE99EBE00221F9D /* JumaNullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D469F9CF1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.h in Headers */ = {isa = PBXBuildFile; fileRef = D469F9CD1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.h */; };
+		D469F9D01CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.m in Sources */ = {isa = PBXBuildFile; fileRef = D469F9CE1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.m */; };
 		D46B93331CEAEED8005317A9 /* JumaDevice+UUIDConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = D46B93311CEAEED8005317A9 /* JumaDevice+UUIDConstants.h */; };
 		D46B93341CEAEED8005317A9 /* JumaDevice+UUIDConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D46B93321CEAEED8005317A9 /* JumaDevice+UUIDConstants.m */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,8 @@
 		D40BDB0F1C11916B004C575B /* JumaManagerConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumaManagerConstant.h; sourceTree = "<group>"; };
 		D40BDB101C11916B004C575B /* JumaManagerConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumaManagerConstant.m; sourceTree = "<group>"; };
 		D45632CA1CE99EBE00221F9D /* JumaNullability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JumaNullability.h; sourceTree = "<group>"; };
+		D469F9CD1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JumaDevice+DelegateEventNotifying.h"; sourceTree = "<group>"; };
+		D469F9CE1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JumaDevice+DelegateEventNotifying.m"; sourceTree = "<group>"; };
 		D46B93311CEAEED8005317A9 /* JumaDevice+UUIDConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JumaDevice+UUIDConstants.h"; sourceTree = "<group>"; };
 		D46B93321CEAEED8005317A9 /* JumaDevice+UUIDConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JumaDevice+UUIDConstants.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +175,8 @@
 				D40BDAE91C119158004C575B /* JumaDataSender.m */,
 				D46B93311CEAEED8005317A9 /* JumaDevice+UUIDConstants.h */,
 				D46B93321CEAEED8005317A9 /* JumaDevice+UUIDConstants.m */,
+				D469F9CD1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.h */,
+				D469F9CE1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.m */,
 				D40BDAEC1C119158004C575B /* JumaManager+Internal.h */,
 				D40BDAED1C119158004C575B /* JumaManager+Internal.m */,
 				D40BDACA1C118DB0004C575B /* Info.plist */,
@@ -201,6 +207,7 @@
 				D46B93331CEAEED8005317A9 /* JumaDevice+UUIDConstants.h in Headers */,
 				D40BDAC91C118DB0004C575B /* JumaBluetoothSDK.h in Headers */,
 				D40BDB151C11916B004C575B /* JumaManager.h in Headers */,
+				D469F9CF1CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.h in Headers */,
 				D40BDB171C11916B004C575B /* JumaManagerConstant.h in Headers */,
 				D40BDB111C11916B004C575B /* JumaDevice.h in Headers */,
 				D45632CB1CE9A03800221F9D /* JumaNullability.h in Headers */,
@@ -336,6 +343,7 @@
 				D46B93341CEAEED8005317A9 /* JumaDevice+UUIDConstants.m in Sources */,
 				D40BDB181C11916B004C575B /* JumaManagerConstant.m in Sources */,
 				D40BDAFE1C119158004C575B /* JumaManager+Internal.m in Sources */,
+				D469F9D01CEC6FD0009655BD /* JumaDevice+DelegateEventNotifying.m in Sources */,
 				D40BDB041C119158004C575B /* NSData+Category.m in Sources */,
 				D40BDB161C11916B004C575B /* JumaManager.m in Sources */,
 				D40BDB081C119161004C575B /* JumaBluetoothSDK.m in Sources */,
