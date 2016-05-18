@@ -59,6 +59,8 @@ typedef NS_ENUM(UInt8, JumaDataType) {
     JumaDataTypeReadVerdorIDAndProductID = 0x85,
     /** 用来读取蓝牙设备的固件版本 */
     JumaDataTypeReadFirmwareVersion = 0x86,
+    /** 用来修改蓝牙设备中的 Vendor_ID 和 Product_ID */
+    JumaDataTypeModifyVerdorIDAndProductID = 0x87,
 };
 /** 接收数据出现异常/其他无法给出数据类型的情况 */
 extern const SInt8 JumaDataTypeError;

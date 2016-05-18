@@ -185,7 +185,7 @@
     }];
 }
 
-- (void)readVerdorIDAndProductID {
+- (void)readVendorIDAndProductID {
     const JumaDataType type = JumaDataTypeReadVerdorIDAndProductID;
     
     [self sendOperationWithDataType:type implementation:^{
@@ -199,6 +199,21 @@
     
     [self sendOperationWithDataType:type implementation:^{
         self.dataSender = [[JumaDataSender alloc] initWithData:nil type:type];
+        [self.dataSender sendFirstDataToCharacteristic:self.commandCharacteristic peripheral:self.peripheral];
+    }];
+}
+
+- (void)modifyVendorID:(NSData *)vendorID productID:(NSData *)productID {
+    NSParameterAssert(vendorID.length == 4);
+    NSParameterAssert(productID.length == 4);
+    
+    const JumaDataType type = JumaDataTypeModifyVerdorIDAndProductID;
+    
+    NSMutableData *data = [NSMutableData dataWithData:vendorID];
+    [data appendData:productID];
+    
+    [self sendOperationWithDataType:type implementation:^{
+        self.dataSender = [[JumaDataSender alloc] initWithData:data type:type];
         [self.dataSender sendFirstDataToCharacteristic:self.commandCharacteristic peripheral:self.peripheral];
     }];
 }
@@ -295,6 +310,77 @@
     }
 }
 
+- (void)notifyDelegateWithDeviceID:(NSData *)deviceID error:(NSError *)error {
+    
+    if ([self.delegate respondsToSelector:@selector(device:didReadDeviceID:error:)]) {
+        [self.delegate device:self didReadDeviceID:deviceID error:error];
+    }
+}
+
+- (void)notifyDelegateWithVendorIdAndProductIdData:(NSData *)data error:(NSError *)error {
+    
+    if (![self.delegate respondsToSelector:@selector(device:didReadVendorID:productID:error:)]) { return; }
+    
+    NSString *vendorID = nil;
+    NSString *productID = nil;
+    
+    if (!error) {
+        static const NSUInteger len = 8;
+        
+        if (data.length == len) {
+            NSData *vendorData = [data juma_subdataToIndex:len / 2];
+            NSData *productData = [data juma_subdataFromIndex:len / 2];
+            
+            vendorID  = [[NSString alloc] initWithData:vendorData  encoding:NSUTF8StringEncoding];
+            productID = [[NSString alloc] initWithData:productData encoding:NSUTF8StringEncoding];
+        }
+        
+        if (!vendorID || !productID) {
+            NSString *msg = [NSString stringWithFormat:@"can not convert data %@ to Vendor_ID string and Product_ID string", data];
+            error = [NSError juma_errorWithDescription:msg];
+        }
+    }
+    
+    [self.delegate device:self didReadVendorID:vendorID productID:productID error:error];
+}
+
+- (void)notifyDelegateWithFirmwareVersion:(NSData *)data error:(NSError *)error {
+    
+    if (![self.delegate respondsToSelector:@selector(device:didReadFirmwareVersion:error:)]) { return; }
+    
+    NSString *firmwareVersion = nil;
+    
+    if (!error) {
+        
+        if (data.length <= 8) {
+            firmwareVersion = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
+        
+        if (!firmwareVersion) {
+            NSString *msg = [NSString stringWithFormat:@"can not convert data %@ to Firmware_Ver string", data];
+            error = [NSError juma_errorWithDescription:msg];
+        }
+    }
+    
+    [self.delegate device:self didReadFirmwareVersion:firmwareVersion error:error];
+}
+
+- (void)notifyDelegateVerdorIdAndProductIdModified:(NSData *)data error:(NSError *)error {
+    
+    if (![self.delegate respondsToSelector:@selector(device:didModifyVendorIDAndProductID:)]) { return; }
+    
+    if (!error) {
+        const UInt8 *bytes = data.bytes;
+        
+        if (data.length == 1 && bytes[0] != 0) {
+            NSString *msg = [NSString stringWithFormat:@"Unable to determine whether the write success by detecting received %@", data];
+            error = [NSError juma_errorWithDescription:msg];
+        }
+    }
+    
+    [self.delegate device:self didModifyVendorIDAndProductID:error];
+}
+
 #pragma mark - CBPeripheralDelegate
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
@@ -372,7 +458,6 @@
     }
 }
 
-//#warning 需要确定, 如果 setNotify:NO, 是否会调用这个方法
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
 //    JMLog(@"%s, %@, %@, %@, %@", __func__, peripheral, characteristic, error, [NSThread currentThread]);
     
@@ -402,107 +487,119 @@
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     //    JMLog(@"%s, %@, %@, %@", __func__, peripheral, characteristic, error);
     
-    if ([characteristic.UUID isEqual: [JumaDevice commandCharacteristicUUID]])
-    {
-        const JumaDataType dataType = _dataSender.dataType;
+    if (![characteristic.UUID isEqual: [JumaDevice commandCharacteristicUUID]]) { return; }
+    
+    // 数据的类型是固件
+    if (_dataSender.dataType == JumaDataType81) {
         
-        // 用户发送了自定义类型的数据 || 设置 OTA 模式
-        if (dataType <= JumaDataTypeUserMax || dataType == JumaDataType82)
-        {
-            if (!error)
-            {
-                // 第一个已经写入成功, 写入剩余数据
-                [_dataSender sendRemainingDatasToCharacteristic:_bulkOutCharacteristic
-                                                     peripheral:peripheral];
-                
-                // 数据发送完毕之后, 清除保存的发送器, 为下一次发送做准备
-                self.dataSender = nil;
-                [self sendDelegateResultOfWriting:nil];
-            }
-            else
-            {
-                // 数据发送失败, 清除保存的发送器
-                self.dataSender = nil;
-                [self sendDelegateResultOfWriting:error];
-                [_manager disconnectDevice:self];
-            }
+        if (error) {
+            self.dataSender = nil;
+            [self sendDelegateResultOfUpdating:error];
+            [_manager disconnectDevice:self];
+            return;
         }
-        // 用户发送了固件类型数据
-        else if (dataType == JumaDataType81)
-        {
-            if (!error)
-            {
-                // 固件数据没有全部写完
-                if (!_dataSender.didWriteAllFirmwareData)
-                {
-                    // 第一组第一个已经写入成功, 写入第一组后面的数据
-                    [_dataSender sendRemainingRowsToCharacteristic:_bulkOutCharacteristic
-                                                        peripheral:peripheral];
-                }
-                // 固件数据全部写入完成
-                else
-                {
-                    //JMLog(@"did write OTA_End. Update firmware successfully.");
-                    self.dataSender = nil;
-                    [self sendDelegateResultOfUpdating:nil];
-                }
-            }
-            else
-            {
-                self.dataSender = nil;
-                [self sendDelegateResultOfUpdating:error];
-                [_manager disconnectDevice:self];
-            }
+        
+        if (_dataSender.didWriteAllFirmwareData) {
+            //JMLog(@"did write OTA_End. Update firmware successfully.");
+            self.dataSender = nil;
+            [self sendDelegateResultOfUpdating:nil];
+            return;
         }
+        
+        [_dataSender sendRemainingRowsToCharacteristic:_bulkOutCharacteristic
+                                            peripheral:peripheral];
+    }
+    // 其他 type
+    else {
+        
+        if (error) {
+            // 数据发送失败, 清除保存的发送器
+            self.dataSender = nil;
+            [self sendDelegateResultOfWriting:error];
+            [_manager disconnectDevice:self];
+            return;
+        }
+        
+        [_dataSender sendRemainingDatasToCharacteristic:_bulkOutCharacteristic
+                                             peripheral:peripheral];
+        
+        // 数据发送完毕之后, 清除保存的发送器, 为下一次发送做准备
+        self.dataSender = nil;
+        [self sendDelegateResultOfWriting:nil];
     }
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     //JMLog(@"%s, %@, %@, %@", __func__, peripheral, characteristic, error);
     
-    if ([characteristic.UUID isEqual: [JumaDevice notifyCharacteristicUUID]])
-    {
-        if (!error)
-        {
-            NSData *receivedData = characteristic.value;
-            
-            if (receivedData.length)
-            {
-                // 类型
-                JumaDataType type = 0;
-                [receivedData getBytes:&type length:sizeof(type)];
-                
-                if (JumaDataTypeUserMax >= type)
-                {
-                    // 内容
-                    NSData *content = receivedData.length > 2 ? [receivedData juma_subdataFromIndex:2] : nil;
-                    
-                    [self sendDelegateUpdateData:content type:(char)type error:nil];
-                }
-                else if (JumaDataType81 == type)
-                {
-                    // 根据 peripheral 回应的数据来发送相应的固件数据
-                    [_dataSender sendFirstRowforResponse:receivedData
-                                          characteristic:_commandCharacteristic
-                                              peripheral:peripheral];
-                }
-            }
-        }
-        else
-        {
-            // 升级固件的过程中出错
-            if (_dataSender.dataType == JumaDataType81)
-            {
-                self.dataSender = nil;
-                [self sendDelegateResultOfUpdating:error];
-            }
-            // 目前 JUMA 内部只使用了 81 用来标记升级固件这个操作, 而且 81 暂时无法有效使用, 所以错误应该全部属于 [0, 127] 段
-            else
-            {
-                [self sendDelegateUpdateData:nil type:JumaDataTypeError error:error];
-            }
-            
+    if (![characteristic.UUID isEqual: [JumaDevice notifyCharacteristicUUID]]) { return; }
+    
+    NSData *receivedData = characteristic.value;
+    
+    // 数据的类型是固件
+    if (_dataSender.dataType == JumaDataType81) {
+        
+        if (error) {
+            self.dataSender = nil;
+            [self sendDelegateResultOfUpdating:error];
             [_manager disconnectDevice:self];
+            return;
+        }
+        
+        // 根据 peripheral 回应的数据来发送相应的固件数据
+        [_dataSender sendFirstRowforResponse:receivedData
+                              characteristic:_commandCharacteristic
+                                  peripheral:peripheral];
+    }
+    // 其他 type
+    else {
+        
+        if (error) {
+#warning 没有区分类型
+            [self sendDelegateUpdateData:nil type:JumaDataTypeError error:error];
+            [_manager disconnectDevice:self];
+            return;
+        }
+        
+        
+        // 类型
+        JumaDataType foo = 0;
+        [receivedData getBytes:&foo length:sizeof(foo)];
+        const JumaDataType type = foo;
+        
+        // 内容
+        NSData *content = receivedData.length > 2 ? [receivedData juma_subdataFromIndex:2] : nil;
+        
+        if (type <= JumaDataTypeUserMax) {
+            [self sendDelegateUpdateData:content type:(char)type error:nil];
+        }
+        
+        switch (type) {
+            case JumaDataTypeUserMax: {
+                break;
+            }
+            case JumaDataTypeReadDeviceID: {
+                [self notifyDelegateWithDeviceID:content error:error];
+                break;
+            }
+            case JumaDataType81: {
+                break;
+            }
+            case JumaDataType82: {
+                break;
+            }
+            case JumaDataTypeReadVerdorIDAndProductID: {
+                [self notifyDelegateWithVendorIdAndProductIdData:content error:error];
+                break;
+            }
+            case JumaDataTypeReadFirmwareVersion: {
+                [self notifyDelegateWithFirmwareVersion:content error:error];
+                break;
+            }
+            case JumaDataTypeModifyVerdorIDAndProductID: {
+                [self notifyDelegateVerdorIdAndProductIdModified:content error:error];
+                break;
+            }
         }
     }
 }
