@@ -87,7 +87,7 @@
         }
         
         if (!firmwareVersion) {
-            NSString *msg = [NSString stringWithFormat:@"can not convert data %@ to Firmware_Ver string", data];
+            NSString *msg = [NSString stringWithFormat:@"can not convert data %@ to Firmware_Version string", data];
             error = [NSError juma_errorWithDescription:msg];
         }
     }

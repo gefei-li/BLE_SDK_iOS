@@ -429,7 +429,7 @@
     NSData *receivedData = characteristic.value;
     
     // 数据的类型是固件
-    if (_dataSender.dataType == JumaDataType81) {
+    if (_dataSender && _dataSender.dataType == JumaDataType81) {
         
         if (error) {
             self.dataSender = nil;
@@ -443,16 +443,14 @@
                               characteristic:_commandCharacteristic
                                   peripheral:peripheral];
     }
-    // 其他 type
     else {
-        
+        // error 发生的时候, 不可能知道区分 error 的 data type
+        // 存在不需要先发送命令也能发数据到手机的情况, 此时 error 也不能区分 data type
         if (error) {
-#warning 没有区分类型
             [self notifyDelegateWithUpdatedData:nil type:JumaDataTypeError error:error];
             [_manager disconnectDevice:self];
             return;
         }
-        
         
         // 类型
         JumaDataType foo = 0;
@@ -464,6 +462,7 @@
         
         if (type <= JumaDataTypeUserMax) {
             [self notifyDelegateWithUpdatedData:content type:(char)type error:nil];
+            return;
         }
         
         switch (type) {
