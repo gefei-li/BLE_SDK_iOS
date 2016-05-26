@@ -56,13 +56,19 @@
     
     if (!error) {
         static const NSUInteger len = 8;
+        static const NSUInteger halfLen = len / 2;
         
         if (data.length == len) {
-            NSData *vendorData = [data juma_subdataToIndex:len / 2];
-            NSData *productData = [data juma_subdataFromIndex:len / 2];
             
-            vendorID  = [[NSString alloc] initWithData:vendorData  encoding:NSUTF8StringEncoding];
-            productID = [[NSString alloc] initWithData:productData encoding:NSUTF8StringEncoding];
+            NSData *vendorData = [data juma_subdataToIndex:halfLen];
+            char vendorIdBytes[halfLen + 1] = {0};
+            memcpy(vendorIdBytes, vendorData.bytes, vendorData.length);
+            vendorID = [NSString stringWithCString:vendorIdBytes encoding:NSUTF8StringEncoding];
+            
+            NSData *productData = [data juma_subdataFromIndex:halfLen];
+            char productIdBytes[halfLen + 1] = {0};
+            memcpy(productIdBytes, productData.bytes, productData.length);
+            productID = [NSString stringWithCString:productIdBytes encoding:NSUTF8StringEncoding];
         }
         
         if (!vendorID || !productID) {
