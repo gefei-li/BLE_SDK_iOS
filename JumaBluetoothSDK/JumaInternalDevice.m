@@ -470,7 +470,7 @@
                 break;
             }
             case JumaDataTypeReadDeviceID: {
-                [self notifyDelegateWithDeviceID:content error:error];
+                [self notifyDelegateWithDeviceID:content];
                 break;
             }
             case JumaDataType81: {
@@ -480,15 +480,15 @@
                 break;
             }
             case JumaDataTypeReadVerdorIDAndProductID: {
-                [self notifyDelegateWithVendorIdAndProductIdData:content error:error];
+                [self notifyDelegateWithVendorIdAndProductIdData:content];
                 break;
             }
             case JumaDataTypeReadFirmwareVersion: {
-                [self notifyDelegateWithFirmwareVersion:content error:error];
+                [self notifyDelegateWithFirmwareVersion:content];
                 break;
             }
             case JumaDataTypeModifyVerdorIDAndProductID: {
-                [self notifyDelegateVerdorIdAndProductIdModified:content error:error];
+                [self notifyDelegateVerdorIdAndProductIdModified:content];
                 break;
             }
         }

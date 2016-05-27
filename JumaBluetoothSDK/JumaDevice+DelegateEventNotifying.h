@@ -18,12 +18,12 @@
 
 - (void)notifyDelegateWithUpdatingFirmwareError:(NSError *)error;
 
-- (void)notifyDelegateWithDeviceID:(NSData *)deviceID error:(NSError *)error;
+- (void)notifyDelegateWithDeviceID:(NSData *)deviceID;
 
-- (void)notifyDelegateWithVendorIdAndProductIdData:(NSData *)data error:(NSError *)error;
+- (void)notifyDelegateWithVendorIdAndProductIdData:(NSData *)data;
 
-- (void)notifyDelegateWithFirmwareVersion:(NSData *)data error:(NSError *)error;
+- (void)notifyDelegateWithFirmwareVersion:(NSData *)data;
 
-- (void)notifyDelegateVerdorIdAndProductIdModified:(NSData *)data error:(NSError *)error;
+- (void)notifyDelegateVerdorIdAndProductIdModified:(NSData *)data;
 
 @end
